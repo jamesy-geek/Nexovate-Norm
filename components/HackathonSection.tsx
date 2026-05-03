@@ -8,7 +8,7 @@ const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-60px' as const },
-  transition: { duration: 0.5, ease: 'easeOut', delay },
+  transition: { duration: 0.5, ease: 'easeOut' as const, delay },
 })
 
 export default function HackathonSection() {
