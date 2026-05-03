@@ -1,95 +1,96 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import Navbar from '@/components/Navbar'
+import HeroSection from '@/components/HeroSection'
+import AboutStrip from '@/components/AboutStrip'
+import EventsSection from '@/components/EventsSection'
+import HackathonSection from '@/components/HackathonSection'
+import Footer from '@/components/Footer'
+import { technicalEvents, nonTechnicalEvents, hackathon } from '@/lib/events'
+import { motion } from 'framer-motion'
+import styles from '@/styles/nexovate.module.css'
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <Navbar />
+      <HeroSection />
+      <AboutStrip />
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <EventsSection
+        category="technical"
+        title="TECHNICAL EVENTS"
+        events={technicalEvents}
+      />
+
+      <EventsSection
+        category="nontechnical"
+        title="NON-TECHNICAL EVENTS"
+        events={nonTechnicalEvents}
+      />
+
+      <HackathonSection />
+
+      {/* Contact Section — inline per spec */}
+      <section className={styles.contactSection} id="contact" aria-label="Contact">
+        <div className="container">
+          <motion.h2
+            className={styles.contactHeading}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
+            Have questions?
+          </motion.h2>
+          <motion.p
+            className={styles.contactSubline}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
           >
-            Read our docs
-          </a>
+            Club Ennovate · PESCE Mandya
+          </motion.p>
+
+          <motion.div
+            className={styles.contactGrid}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.15 }}
+            id="contact-grid"
+          >
+            {/* General enquiries */}
+            <div className={styles.contactColumn}>
+              <h3 className={styles.contactColumnTitle}>General Enquiries</h3>
+              {[...technicalEvents, ...nonTechnicalEvents].map((e) => (
+                <div key={e.id} className={styles.contactItem}>
+                  <span className={styles.contactItemEvent}>{e.name}</span>
+                  <span className={styles.contactItemName}>{e.lead}</span>
+                  {e.contact.map((phone) => (
+                    <span key={phone} className={styles.contactItemPhone}>{phone}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Hackathon enquiries */}
+            <div className={styles.contactColumn}>
+              <h3 className={styles.contactColumnTitle}>Hackathon Enquiries</h3>
+              <div className={styles.contactItem}>
+                <span className={styles.contactItemEvent}>{hackathon.name}</span>
+                <span className={styles.contactItemName}>{hackathon.lead}</span>
+                {hackathon.contact.map((phone) => (
+                  <span key={phone} className={styles.contactItemPhone}>{phone}</span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      <Footer />
     </div>
-  );
+  )
 }
